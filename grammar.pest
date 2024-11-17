@@ -1,0 +1,48 @@
+// grammar.pest
+
+// Основные правила
+start       = _{ (statement ~ ";"? ~ WHITESPACE*)+ }
+
+// Инструкция (может быть определение константы, выражение, список или словарь)
+statement   = { def_statement | expression | list | dictionary }
+
+// Определение константы
+def_statement = { "(def" ~ NAME ~ value ~ ")"}
+
+// Выражение для вычисления константы
+expression  = { "^" ~ "{" ~ expr ~ "}" }
+
+
+
+// Операции для вычислений
+expr        = { bin }
+bin         = { factor ~ ((add | sub) ~ factor)* }
+func        = { "pow(" ~ factor ~ "," ~ factor ~ ")" }
+factor      = { NUMBERS | NAME | "(" ~ expr ~ ")" | func }
+add         = { "+" }
+sub         = { "-" }
+
+
+// Массив
+list        = { "(list" ~ value+ ~ ")" ~ ";"? }
+
+// Словарь
+dictionary  = { "$[" ~ key_value* ~ "]" ~ ";"? }
+
+// Элементы словаря
+key_value   = { NAME ~ ":" ~ value ~ ("," ~ WHITESPACE?)* }
+
+// Значение может быть числом, массивом, словарем или именем
+value       = { NUMBERS | list | dictionary | NAME | expression}
+
+
+// Имя
+ASCII_UPPER = { 'A'..'Z'}
+NAME        = @{ ASCII_UPPER+ }
+
+// Число
+NUMBER = {'0'..'9'}
+NUMBERS      = @{ NUMBER+ }
+
+// Пробелы и комментарии
+WHITESPACE  = _{ " " | "\t" | "\n" | "\r" }
