@@ -14,6 +14,7 @@ Options:
 - Dictionaries: `$[ NAME: value, ...]`
 - Lists: `(list value1 value2 value3)`
 - Translation-time constants: `(def NAME value)`
+- `NAME` - any ASCII uppercase sequence.
 - `value` can be either a dictionary or a list.
 - Translation-time evaluation of expressions in infix form `^{expr}`
 - `expr` can be pow(a, b) function or a + b, a - b, where `a` and `b` parameters can be either an expression, a numeric
